@@ -2,6 +2,8 @@
 
 This is a small game that was written as a C++ experiment, to learn the language.
 
+![Screenshot](http://i.imgur.com/ted4wwz.png)
+
 ## Installing
 * `cmake .`
 * `make`
