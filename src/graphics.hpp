@@ -44,8 +44,8 @@ enum class Tile {
 
 
 namespace graphicsSettings {
-    const int cellWidth = 5;
-    const int cellHeight = 5;
+    const int cellWidth = 8;
+    const int cellHeight = 8;
     const std::map<Tile, sf::Color> colors {
         {Tile::DEAD, sf::Color(0x00, 0x00, 0x00)},
         {Tile::DEAD_NEXT_GEN, sf::Color(0xff, 0x40, 0x40)},
