@@ -53,6 +53,21 @@ namespace graphicsSettings {
         {Tile::ALIVE_NEXT_GEN, sf::Color(0x00, 0x40, 0x00)},
         {Tile::GRID, sf::Color(0x20, 0x20, 0x20)}
     };
+    const std::vector<sf::Time> speed {
+        sf::milliseconds(1000 / 20),
+        sf::milliseconds(1000 / 10),
+        sf::milliseconds(1000 / 5),
+        sf::milliseconds(1000 / 4),
+        sf::milliseconds(1000 / 2),
+        sf::milliseconds(1000),
+        sf::milliseconds(1000 * 1.5),
+        sf::milliseconds(1000 * 2),
+        sf::milliseconds(1000 * 3),
+        sf::milliseconds(1000 * 4),
+        sf::milliseconds(1000 * 5),
+        sf::milliseconds(1000 * 8),
+        sf::milliseconds(1000 * 10)
+    };
 }
 
 

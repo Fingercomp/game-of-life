@@ -49,7 +49,8 @@ int main() {
     cellTilemap.resize(ceil(static_cast<float>(windowSize.x) / graphicsSettings::cellWidth), ceil(static_cast<float>(windowSize.y) / graphicsSettings::cellHeight));
 
     State state = State::PAUSED;
-    sf::Time updateInterval = sf::milliseconds(1000 / 5);
+    int speed = 2;
+    sf::Time updateInterval = graphicsSettings::speed.at(speed);
     sf::Clock clock;
 
     while (window.isOpen()) {
@@ -102,6 +103,20 @@ int main() {
                                 state = State::RUNNING;
                             } else if (state == State::RUNNING) {
                                 state = State::PAUSED;
+                            }
+                            break;
+                        case sf::Keyboard::Period:
+                            // Speed +
+                            if (speed != 0) {
+                                --speed;
+                                updateInterval = graphicsSettings::speed.at(speed);
+                            }
+                            break;
+                        case sf::Keyboard::Comma:
+                            // Speed -
+                            if (speed + 1 != static_cast<int>(graphicsSettings::speed.size())) {
+                                ++speed;
+                                updateInterval = graphicsSettings::speed.at(speed);
                             }
                             break;
                         default:
