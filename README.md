@@ -13,3 +13,5 @@ This is a small game that was written as a C++ experiment, to learn the language
 * `Right Click` — create a cell.
 * `Left Click` — remove a cell.
 * `Space Bar` — pause/resume the simulation.
+* `,` — slow down.
+* `.` — speed up.
