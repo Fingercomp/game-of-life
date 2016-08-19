@@ -72,7 +72,9 @@ int main() {
                             int y = event.mouseButton.y;
                             x /= graphicsSettings::cellWidth;
                             y /= graphicsSettings::cellHeight;
-                            cellTilemap.set(x, y, true);
+                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                cellTilemap.set(x, y, true);
+                            }
                             break;
                         }
                         case sf::Mouse::Right: {
@@ -80,7 +82,9 @@ int main() {
                             int y = event.mouseButton.y;
                             x /= graphicsSettings::cellWidth;
                             y /= graphicsSettings::cellHeight;
-                            cellTilemap.set(x, y, false);
+                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                cellTilemap.set(x, y, false);
+                            }
                             break;
                         }
                         case sf::Mouse::Middle: {
@@ -88,8 +92,10 @@ int main() {
                             int y = event.mouseButton.y;
                             x /= graphicsSettings::cellWidth;
                             y /= graphicsSettings::cellHeight;
-                            std::cout << "DEBUG INFO FOR {x=" << x << ", y=" << y << "}:\n";
-                            std::cout << "Neighbors: " << board.getNeighborCount(x, y) << "\n";
+                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                std::cout << "DEBUG INFO FOR {x=" << x << ", y=" << y << "}:\n";
+                                std::cout << "Neighbors: " << board.getNeighborCount(x, y) << "\n";
+                            }
                             break;
                         }
                         default:
@@ -132,11 +138,13 @@ int main() {
                         int y = event.mouseMove.y;
                         x /= graphicsSettings::cellWidth;
                         y /= graphicsSettings::cellHeight;
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                            cellTilemap.set(x, y, true);
-                        }
-                        if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-                            cellTilemap.set(x, y, false);
+                        if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                                cellTilemap.set(x, y, true);
+                            }
+                            if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+                                cellTilemap.set(x, y, false);
+                            }
                         }
                     }
                 }
