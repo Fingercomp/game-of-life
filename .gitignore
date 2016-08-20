@@ -20,3 +20,5 @@
 
 # Scripts
 /scripts/
+/build/
+/tmp/

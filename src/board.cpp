@@ -28,9 +28,6 @@
 
 
 Board::Board(const int w, const int h): _w(w), _h(h) {
-    assert(w > 1);
-    assert(h > 1);
-
     // Fill the board
     fill(_cells, _w * _h);
     fill(_nextGen, _w * _h);
@@ -114,9 +111,6 @@ bool Board::get(const int x, const int y) const {
 }
 
 void Board::resize(const int w, const int h) {
-    assert(w > 1);
-    assert(h > 1);
-
     std::vector<bool> newBoard;
     fill(newBoard, w * h);
     for (int y = 0; y < h; ++y) {

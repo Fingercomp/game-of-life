@@ -54,19 +54,28 @@ namespace graphicsSettings {
         {Tile::GRID, sf::Color(0x20, 0x20, 0x20)}
     };
     const std::vector<sf::Time> speed {
+        sf::milliseconds(1000 / 50),
         sf::milliseconds(1000 / 20),
         sf::milliseconds(1000 / 10),
         sf::milliseconds(1000 / 5),
         sf::milliseconds(1000 / 4),
         sf::milliseconds(1000 / 2),
         sf::milliseconds(1000),
-        sf::milliseconds(1000 * 1.5),
+        sf::milliseconds(1000 * 1.5f),
         sf::milliseconds(1000 * 2),
         sf::milliseconds(1000 * 3),
         sf::milliseconds(1000 * 4),
         sf::milliseconds(1000 * 5),
         sf::milliseconds(1000 * 8),
         sf::milliseconds(1000 * 10)
+    };
+    const std::vector<float> zoomLevels {
+        1.0f / 10,
+        1.0f / 5,
+        1.0f / 4,
+        1.0f / 2,
+        1.0f,
+        1.0f * 1.5f
     };
 }
 

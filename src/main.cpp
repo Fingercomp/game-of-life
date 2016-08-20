@@ -34,6 +34,15 @@
 #include "main.hpp"
 
 
+void resizeWindow(sf::RenderWindow &window, sf::Vector2u &windowSize, float zoom) {
+    sf::FloatRect visibleArea(0, 0, zoom * static_cast<float>(windowSize.x), zoom * static_cast<float>(windowSize.y));
+    window.setView(sf::View(visibleArea));
+}
+
+inline void resizeTilemap(CellTilemap cellTilemap, sf::Vector2u &windowSize, float zoom) {
+    cellTilemap.resize(ceil(zoom * static_cast<float>(windowSize.x) / graphicsSettings::cellWidth), ceil(zoom * static_cast<float>(windowSize.y) / graphicsSettings::cellHeight));
+}
+
 int main() {
     Board board(10, 10);
     CellTilemap cellTilemap(board);
@@ -45,8 +54,11 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game of Life");
     window.setFramerateLimit(30);  // no need for high FPS
 
+    int zoomPos = 2;  // 1.0f
+    float zoom = graphicsSettings::zoomLevels.at(zoomPos);
     sf::Vector2u windowSize = window.getSize();
-    cellTilemap.resize(ceil(static_cast<float>(windowSize.x) / graphicsSettings::cellWidth), ceil(static_cast<float>(windowSize.y) / graphicsSettings::cellHeight));
+    cellTilemap.resize(ceil(zoom * static_cast<float>(windowSize.x) / graphicsSettings::cellWidth), ceil(zoom * static_cast<float>(windowSize.y) / graphicsSettings::cellHeight));
+    resizeWindow(window, windowSize, zoom);
 
     State state = State::PAUSED;
     int speed = 2;
@@ -61,15 +73,17 @@ int main() {
                     window.close();
                     break;
                 case sf::Event::Resized: {
-                    sf::FloatRect visibleArea(0, 0, static_cast<float>(event.size.width), static_cast<float>(event.size.height));
-                    window.setView(sf::View(visibleArea));
-                    cellTilemap.resize(ceil(static_cast<float>(event.size.width) / graphicsSettings::cellWidth), ceil(static_cast<float>(event.size.height) / graphicsSettings::cellHeight));
+                    sf::Vector2u windowSize(event.size.width, event.size.height);
+                    resizeWindow(window, windowSize, zoom);
+                    resizeTilemap(cellTilemap, windowSize, zoom);
                 }
                 case sf::Event::MouseButtonPressed: {
                     switch (event.mouseButton.button) {
                         case sf::Mouse::Left: {
-                            int x = event.mouseButton.x;
-                            int y = event.mouseButton.y;
+                            sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
+                            sf::Vector2f pos = window.mapPixelToCoords(point);
+                            int x = static_cast<int>(pos.x);
+                            int y = static_cast<int>(pos.y);
                             x /= graphicsSettings::cellWidth;
                             y /= graphicsSettings::cellHeight;
                             if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
@@ -78,8 +92,10 @@ int main() {
                             break;
                         }
                         case sf::Mouse::Right: {
-                            int x = event.mouseButton.x;
-                            int y = event.mouseButton.y;
+                            sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
+                            sf::Vector2f pos = window.mapPixelToCoords(point);
+                            int x = static_cast<int>(pos.x);
+                            int y = static_cast<int>(pos.y);
                             x /= graphicsSettings::cellWidth;
                             y /= graphicsSettings::cellHeight;
                             if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
@@ -88,8 +104,10 @@ int main() {
                             break;
                         }
                         case sf::Mouse::Middle: {
-                            int x = event.mouseButton.x;
-                            int y = event.mouseButton.y;
+                            sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
+                            sf::Vector2f pos = window.mapPixelToCoords(point);
+                            int x = static_cast<int>(pos.x);
+                            int y = static_cast<int>(pos.y);
                             x /= graphicsSettings::cellWidth;
                             y /= graphicsSettings::cellHeight;
                             if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
@@ -125,6 +143,26 @@ int main() {
                                 updateInterval = graphicsSettings::speed.at(speed);
                             }
                             break;
+                        case sf::Keyboard::PageUp:
+                            // Zoom In
+                            if (zoomPos != 0) {
+                                --zoomPos;
+                                zoom = graphicsSettings::zoomLevels[zoomPos];
+                                sf::Vector2u windowSize = window.getSize();
+                                resizeWindow(window, windowSize, zoom);
+                                resizeTilemap(cellTilemap, windowSize, zoom);
+                            }
+                            break;
+                        case sf::Keyboard::PageDown:
+                            // Zoom Out
+                            if (zoomPos < static_cast<int>(graphicsSettings::zoomLevels.size()) - 1) {
+                                ++zoomPos;
+                                zoom = graphicsSettings::zoomLevels[zoomPos];
+                                sf::Vector2u windowSize = window.getSize();
+                                resizeWindow(window, windowSize, zoom);
+                                resizeTilemap(cellTilemap, windowSize, zoom);
+                            }
+                            break;
                         default:
                             break;
                     }
@@ -134,8 +172,10 @@ int main() {
                     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) ||
                             sf::Mouse::isButtonPressed(sf::Mouse::Right) ||
                             sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
-                        int x = event.mouseMove.x;
-                        int y = event.mouseMove.y;
+                        sf::Vector2i point(event.mouseMove.x, event.mouseMove.y);
+                        sf::Vector2f pos = window.mapPixelToCoords(point);
+                        int x = static_cast<int>(pos.x);
+                        int y = static_cast<int>(pos.y);
                         x /= graphicsSettings::cellWidth;
                         y /= graphicsSettings::cellHeight;
                         if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
