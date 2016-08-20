@@ -54,7 +54,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game of Life");
     window.setFramerateLimit(30);  // no need for high FPS
 
-    int zoomPos = 2;  // 1.0f
+    int zoomPos = 4;  // 1.0f
     float zoom = graphicsSettings::zoomLevels.at(zoomPos);
     sf::Vector2u windowSize = window.getSize();
     cellTilemap.resize(ceil(zoom * static_cast<float>(windowSize.x) / graphicsSettings::cellWidth), ceil(zoom * static_cast<float>(windowSize.y) / graphicsSettings::cellHeight));
