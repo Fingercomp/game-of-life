@@ -23,5 +23,6 @@
 
 enum class State {
     PAUSED,
-    RUNNING
+    RUNNING,
+    HELP
 };

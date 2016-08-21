@@ -78,46 +78,50 @@ int main() {
                     resizeTilemap(cellTilemap, windowSize, zoom);
                 }
                 case sf::Event::MouseButtonPressed: {
-                    switch (event.mouseButton.button) {
-                        case sf::Mouse::Left: {
-                            sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
-                            sf::Vector2f pos = window.mapPixelToCoords(point);
-                            int x = static_cast<int>(pos.x);
-                            int y = static_cast<int>(pos.y);
-                            x /= graphicsSettings::cellWidth;
-                            y /= graphicsSettings::cellHeight;
-                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
-                                cellTilemap.set(x, y, true);
+                    if (state == State::HELP) {
+                        state = State::PAUSED;
+                    } else {
+                        switch (event.mouseButton.button) {
+                            case sf::Mouse::Left: {
+                                sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
+                                sf::Vector2f pos = window.mapPixelToCoords(point);
+                                int x = static_cast<int>(pos.x);
+                                int y = static_cast<int>(pos.y);
+                                x /= graphicsSettings::cellWidth;
+                                y /= graphicsSettings::cellHeight;
+                                if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                    cellTilemap.set(x, y, true);
+                                }
+                                break;
                             }
-                            break;
-                        }
-                        case sf::Mouse::Right: {
-                            sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
-                            sf::Vector2f pos = window.mapPixelToCoords(point);
-                            int x = static_cast<int>(pos.x);
-                            int y = static_cast<int>(pos.y);
-                            x /= graphicsSettings::cellWidth;
-                            y /= graphicsSettings::cellHeight;
-                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
-                                cellTilemap.set(x, y, false);
+                            case sf::Mouse::Right: {
+                                sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
+                                sf::Vector2f pos = window.mapPixelToCoords(point);
+                                int x = static_cast<int>(pos.x);
+                                int y = static_cast<int>(pos.y);
+                                x /= graphicsSettings::cellWidth;
+                                y /= graphicsSettings::cellHeight;
+                                if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                    cellTilemap.set(x, y, false);
+                                }
+                                break;
                             }
-                            break;
-                        }
-                        case sf::Mouse::Middle: {
-                            sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
-                            sf::Vector2f pos = window.mapPixelToCoords(point);
-                            int x = static_cast<int>(pos.x);
-                            int y = static_cast<int>(pos.y);
-                            x /= graphicsSettings::cellWidth;
-                            y /= graphicsSettings::cellHeight;
-                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
-                                std::cout << "DEBUG INFO FOR {x=" << x << ", y=" << y << "}:\n";
-                                std::cout << "Neighbors: " << board.getNeighborCount(x, y) << "\n";
+                            case sf::Mouse::Middle: {
+                                sf::Vector2i point(event.mouseButton.x, event.mouseButton.y);
+                                sf::Vector2f pos = window.mapPixelToCoords(point);
+                                int x = static_cast<int>(pos.x);
+                                int y = static_cast<int>(pos.y);
+                                x /= graphicsSettings::cellWidth;
+                                y /= graphicsSettings::cellHeight;
+                                if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                    std::cout << "DEBUG INFO FOR {x=" << x << ", y=" << y << "}:\n";
+                                    std::cout << "Neighbors: " << board.getNeighborCount(x, y) << "\n";
+                                }
+                                break;
                             }
-                            break;
+                            default:
+                                break;
                         }
-                        default:
-                            break;
                     }
                 }
                 case sf::Event::KeyPressed: {
@@ -126,6 +130,8 @@ int main() {
                             if (state == State::PAUSED) {
                                 state = State::RUNNING;
                             } else if (state == State::RUNNING) {
+                                state = State::PAUSED;
+                            } else if (state == State::HELP) {
                                 state = State::PAUSED;
                             }
                             break;
@@ -169,21 +175,23 @@ int main() {
                     break;
                 }
                 case sf::Event::MouseMoved: {
-                    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) ||
-                            sf::Mouse::isButtonPressed(sf::Mouse::Right) ||
-                            sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
-                        sf::Vector2i point(event.mouseMove.x, event.mouseMove.y);
-                        sf::Vector2f pos = window.mapPixelToCoords(point);
-                        int x = static_cast<int>(pos.x);
-                        int y = static_cast<int>(pos.y);
-                        x /= graphicsSettings::cellWidth;
-                        y /= graphicsSettings::cellHeight;
-                        if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
-                            if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                                cellTilemap.set(x, y, true);
-                            }
-                            if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-                                cellTilemap.set(x, y, false);
+                    if (state != State::HELP) {
+                        if (sf::Mouse::isButtonPressed(sf::Mouse::Left) ||
+                                sf::Mouse::isButtonPressed(sf::Mouse::Right) ||
+                                sf::Mouse::isButtonPressed(sf::Mouse::Middle)) {
+                            sf::Vector2i point(event.mouseMove.x, event.mouseMove.y);
+                            sf::Vector2f pos = window.mapPixelToCoords(point);
+                            int x = static_cast<int>(pos.x);
+                            int y = static_cast<int>(pos.y);
+                            x /= graphicsSettings::cellWidth;
+                            y /= graphicsSettings::cellHeight;
+                            if (x >= 0 && y >= 0 && x < cellTilemap.getWidth() && y < cellTilemap.getHeight()) {
+                                if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                                    cellTilemap.set(x, y, true);
+                                }
+                                if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+                                    cellTilemap.set(x, y, false);
+                                }
                             }
                         }
                     }
@@ -201,6 +209,8 @@ int main() {
         window.clear();
         tilemap.update();
         window.draw(tilemap);
+        if (state == State::HELP) {
+        }
         window.display();
     }
 
