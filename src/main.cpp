@@ -39,7 +39,7 @@ void resizeWindow(sf::RenderWindow &window, sf::Vector2u &windowSize, float zoom
     window.setView(sf::View(visibleArea));
 }
 
-inline void resizeTilemap(CellTilemap cellTilemap, sf::Vector2u &windowSize, float zoom) {
+inline void resizeTilemap(CellTilemap &cellTilemap, sf::Vector2u &windowSize, float zoom) {
     cellTilemap.resize(ceil(zoom * static_cast<float>(windowSize.x) / graphicsSettings::cellWidth), ceil(zoom * static_cast<float>(windowSize.y) / graphicsSettings::cellHeight));
 }
 
