@@ -163,6 +163,10 @@ int main() {
                                 resizeTilemap(cellTilemap, windowSize, zoom);
                             }
                             break;
+                        case sf::Keyboard::BackSpace:
+                            // Clear
+                            board.clear();
+                            break;
                         default:
                             break;
                     }

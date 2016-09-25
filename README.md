@@ -17,3 +17,4 @@ This is a small game that was written as a C++ experiment, to learn the language
 * `.` — speed up.
 * `Page Up` — zoom in.
 * `Page Down` — zoom out.
+* `Backspace` — clear the board.

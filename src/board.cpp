@@ -110,6 +110,13 @@ bool Board::get(const int x, const int y) const {
     return _cells[y * _w + x];
 }
 
+void Board::clear() {
+    std::vector<bool> emptyList;
+    fill(emptyList, _w * _h);
+    _cells = emptyList;
+    _nextGen = emptyList;
+}
+
 void Board::resize(const int w, const int h) {
     std::vector<bool> newBoard;
     fill(newBoard, w * h);

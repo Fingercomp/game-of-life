@@ -51,4 +51,5 @@ public:
     void set(const int x, const int y, const bool value);
     bool get(const int x, const int y) const;
     void resize(const int w, const int h);
+    void clear();
 };
