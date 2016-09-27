@@ -40,6 +40,7 @@ private:
     std::vector<bool> _cells;  // the vector of cells
     std::vector<bool> _nextGen;  // for highlighting
     std::vector<bool> newGeneration();
+    bool _modified = false;
 public:
     Board(const int w, const int h);
     int getWidth() const;
@@ -52,4 +53,6 @@ public:
     bool get(const int x, const int y) const;
     void resize(const int w, const int h);
     void clear();
+    bool modified() const;
+    void modified(bool);
 };

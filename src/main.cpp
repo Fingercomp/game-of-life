@@ -203,7 +203,10 @@ int main() {
             }
         }
         window.clear();
-        tilemap.update();
+        if (board.modified()) {
+            tilemap.update();
+            board.modified(true);
+        }
         window.draw(tilemap);
         window.display();
     }

@@ -93,6 +93,7 @@ std::vector<bool> Board::step() {
     std::vector<bool> oldGen(_cells);
     _cells = _nextGen;
     _nextGen = newGeneration();
+    _modified = true;
     return oldGen;
 }
 
@@ -101,6 +102,7 @@ void Board::set(const int x, const int y, const bool value) {
     assert(y >= 0 && y < _h);
     _cells[y * _w + x] = value;
     _nextGen = newGeneration();  // Update the highlighting
+    _modified = true;
 }
 
 bool Board::get(const int x, const int y) const {
@@ -115,6 +117,7 @@ void Board::clear() {
     fill(emptyList, _w * _h);
     _cells = emptyList;
     _nextGen = emptyList;
+    _modified = true;
 }
 
 void Board::resize(const int w, const int h) {
@@ -135,4 +138,13 @@ void Board::resize(const int w, const int h) {
     _w = w;
     _h = h;
     _nextGen = newGeneration();
+    _modified = true;
+}
+
+bool Board::modified() const {
+    return _modified;
+}
+
+void Board::modified(bool) {
+    _modified = false;
 }
