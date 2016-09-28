@@ -54,6 +54,7 @@ namespace graphicsSettings {
         {Tile::GRID, sf::Color(0x20, 0x20, 0x20)}
     };
     const std::vector<sf::Time> speed {
+        sf::milliseconds(1000 / 100),
         sf::milliseconds(1000 / 50),
         sf::milliseconds(1000 / 20),
         sf::milliseconds(1000 / 10),
