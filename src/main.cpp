@@ -167,6 +167,13 @@ int main() {
                             // Clear
                             board.clear();
                             break;
+                        case sf::Keyboard::Return:
+                            // Pause and step
+                            if (state == State::RUNNING) {
+                                state = State::PAUSED;
+                            }
+                            board.step();
+                            clock.restart();
                         default:
                             break;
                     }
