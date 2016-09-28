@@ -18,3 +18,4 @@ This is a small game that was written as a C++ experiment, to learn the language
 * `Page Up` — zoom in.
 * `Page Down` — zoom out.
 * `Backspace` — clear the board.
+* `Enter` — pause the simulation and step to new generation.
