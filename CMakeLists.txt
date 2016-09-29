@@ -7,6 +7,7 @@ set(EXECUTABLE_NAME "game-of-life")
 
 file(GLOB SRC_FILES
     "src/*.h"
+    "src/*.hpp"
     "src/*.cpp"
 )
 
