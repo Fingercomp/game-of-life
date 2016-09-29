@@ -36,12 +36,37 @@ Board::Board(const int w, const int h): _w(w), _h(h) {
 std::vector<bool> Board::newGeneration() {
     std::vector<bool> newGen;
     fill(newGen, _w * _h);
+    // Only look at neighbors of alive cells
+    std::vector<int> idxs;
     for (int y = 0; y < _h; ++y) {
         for (int x = 0; x < _w; ++x) {
-            bool cell = _cells[y * _w + x];
-            int nb = getNeighborCount(x, y);
-            newGen[y * _w + x] = (cell && nb == 2) || nb == 3;
+            if (_cells[y * _w + x]) {
+                for (int i = x - 1; i <= x + 1; ++i) {
+                    int indexI = i;
+                    if (i < 0) {
+                        indexI = _w + i;
+                    } else if (i >= _w) {
+                        indexI = i % _w;
+                    }
+                    for (int j = y - 1; j <= y + 1; ++j) {
+                        int indexJ = j;
+                        if (j < 0) {
+                            indexJ = _h + j;
+                        } else if (j >= _h) {
+                            indexJ = j % _h;
+                        }
+                        idxs.push_back(indexJ * _w + indexI);
+                    }
+                }
+            }
         }
+    }
+    for (int &idx : idxs) {
+        bool cell = _cells[idx];
+        int x = idx % _w;
+        int y = idx / _w;
+        int nb = getNeighborCount(x, y);
+        newGen[idx] = (cell && nb == 2) || nb == 3;
     }
     return newGen;
 }

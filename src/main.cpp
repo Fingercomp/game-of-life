@@ -61,7 +61,7 @@ int main() {
     resizeWindow(window, windowSize, zoom);
 
     State state = State::PAUSED;
-    int speed = 4;
+    int speed = 7;
     sf::Time updateInterval = graphicsSettings::speed.at(speed);
     sf::Clock clock;
 
