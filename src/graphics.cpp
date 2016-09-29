@@ -21,6 +21,7 @@
 // SOFTWARE.
 
 
+#include <cassert>
 #include <iostream>
 
 #include "graphics.hpp"
@@ -49,19 +50,19 @@ void CellTilemap::update() {
     for (int j = 0; j < _h; ++j) {
         for (int i = 0; i < _w; ++i) {
             int index = j * _w + i;
-            bool thisGenCell = thisGen.at(index);
-            bool nextGenCell = nextGen.at(index);
+            bool thisGenCell = thisGen[index];
+            bool nextGenCell = nextGen[index];
             if (thisGenCell && nextGenCell) {
-                _tiles.at(index) = Tile::ALIVE;
+                _tiles[index] = Tile::ALIVE;
             } else if (thisGenCell && !nextGenCell) {
-                _tiles.at(index) = Tile::DEAD_NEXT_GEN;
+                _tiles[index] = Tile::DEAD_NEXT_GEN;
             } else if (!thisGenCell && nextGenCell) {
-                _tiles.at(index) = Tile::ALIVE_NEXT_GEN;
+                _tiles[index] = Tile::ALIVE_NEXT_GEN;
             } else if (!thisGenCell && !nextGenCell) {
                 if ((i + j) % 2) {
-                    _tiles.at(index) = Tile::DEAD;
+                    _tiles[index] = Tile::DEAD;
                 } else {
-                    _tiles.at(index) = Tile::GRID;
+                    _tiles[index] = Tile::GRID;
                 }
             }
         }

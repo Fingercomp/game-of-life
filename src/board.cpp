@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 
+#include <cassert>
+#include <set>
 #include <vector>
 
 #include "board.hpp"
@@ -37,7 +39,7 @@ std::vector<bool> Board::newGeneration() {
     std::vector<bool> newGen;
     fill(newGen, _w * _h);
     // Only look at neighbors of alive cells
-    std::vector<int> idxs;
+    std::set<int> idxs;
     for (int y = 0; y < _h; ++y) {
         for (int x = 0; x < _w; ++x) {
             if (_cells[y * _w + x]) {
@@ -55,13 +57,13 @@ std::vector<bool> Board::newGeneration() {
                         } else if (j >= _h) {
                             indexJ = j % _h;
                         }
-                        idxs.push_back(indexJ * _w + indexI);
+                        idxs.insert(indexJ * _w + indexI);
                     }
                 }
             }
         }
     }
-    for (int &idx : idxs) {
+    for (const int &idx : idxs) {
         bool cell = _cells[idx];
         int x = idx % _w;
         int y = idx / _w;
